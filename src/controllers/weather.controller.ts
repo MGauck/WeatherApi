@@ -1,11 +1,16 @@
 import { Request, Response } from "express";
 import { isValidLatitude, isValidLongitude } from "../validators/number.validator";
 import { HTTP_CODES } from "../constants/httpsCodes.constants";
-import { COLD_THRESHOLD, HOT_THRESHOLD, TEMPERATURE } from "../constants/weather.constants";
+import { TEMPERATURE, WEATHER_API_URL } from "../constants/weather.constants";
+import { getWeatherFeels } from "../utils/weather.utils";
 
-
-const WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather";
 const APP_ID = "";
+
+export interface IWeather {
+  condition: String;
+  feels: TEMPERATURE;
+  alerts?: String[];
+};
 
 export const getWeather = async (req: Request, res: Response) => {
   const { lat, long } = req.query;
@@ -19,21 +24,17 @@ export const getWeather = async (req: Request, res: Response) => {
 
     const json = await response.json();
 
-    const weather = {
-      condition: json.weather[0].description,
+    const weather: IWeather = {
+      condition: json.weather[0]?.description || 'N/A',
       feels: getWeatherFeels(json.main.temp),
     };
+
+    weather.alerts = [
+      "This functionallity is only available in paid subscription :/"
+    ];
 
     res.send(weather);
   }
 
   res.status(HTTP_CODES.BAD_REQUEST).send("Latitude or Longitude invalid!");
-}
-
-function getWeatherFeels(temp: number): TEMPERATURE {
-  return temp < COLD_THRESHOLD
-    ? TEMPERATURE.IS_COLD
-    : temp > HOT_THRESHOLD
-      ? TEMPERATURE.IS_HOT
-      : TEMPERATURE.IS_MODERATE;
 }
