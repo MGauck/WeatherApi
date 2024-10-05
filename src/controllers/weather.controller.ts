@@ -34,7 +34,7 @@ export const getWeather = async (req: Request, res: Response) => {
     ];
 
     res.send(weather);
+  } else {
+    res.status(HTTP_CODES.BAD_REQUEST).send("Latitude or Longitude invalid!");
   }
-
-  res.status(HTTP_CODES.BAD_REQUEST).send("Latitude or Longitude invalid!");
 }
