@@ -3,6 +3,7 @@ import { getWeather } from '../controllers/weather.controller';
 
 const weatherRouter = express.Router();
 
+// In real project I would move schema and endpoint definitions to separate file, to keep it nice and short
 /**
  * @openapi
  * /weather:

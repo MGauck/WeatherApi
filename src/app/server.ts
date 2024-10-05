@@ -1,7 +1,7 @@
 import express from 'express';
 import { PORT } from './constants/server.constants';
 import weatherRouter from './routes/weather.router';
-import swagger from "./swagger";
+import swagger from './swagger';
 
 const app = express();
 
@@ -12,6 +12,8 @@ app.use("/weather", weatherRouter);
 
 swagger(app);
 
-app.listen({ port: PORT }, () => {
+const server = app.listen({ port: PORT }, () => {
   console.log(`Server running on port ${PORT}`);  
 });
+
+export default server;
