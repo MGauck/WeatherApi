@@ -3,6 +3,7 @@ import { isValidLatitude, isValidLongitude } from "../validators/number.validato
 import { HTTP_CODES } from "../constants/httpsCodes.constants";
 import { APP_ID, TEMPERATURE, WEATHER_API_URL } from "../constants/weather.constants";
 import { getWeatherFeels } from "../utils/weather.utils";
+import { WRONG_LONG_OR_LAT } from "../constants/errorMessages.constant";
 
 export interface IWeather {
   condition: String;
@@ -36,7 +37,7 @@ export const getWeather = async (req: Request, res: Response) => {
 
     res.send(weather);
   } else {
-    res.status(HTTP_CODES.BAD_REQUEST).send("Latitude or Longitude invalid!");
+    res.status(HTTP_CODES.BAD_REQUEST).send(WRONG_LONG_OR_LAT);
   }
 }
 

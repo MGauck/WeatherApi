@@ -1,0 +1,1 @@
+export const WRONG_LONG_OR_LAT = "Latitude or Longitude invalid!";
